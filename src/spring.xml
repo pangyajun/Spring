@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context.xsd" 
+	>
+	
+	  <!-- 该标签用来指定加载spring文件时,需要扫描哪些包及子包下的注解,并根据注解完成依赖注入 -->
+	  <context:component-scan base-package="com.spring"/>
+ 	  <!--   <context:property-placeholder location="classpath:app.properties" file-encoding="UTF-8" />   -->
+ 	  <!-- 把properties文件属性注入bean中依赖的属性@Value("#{app['name']}")  -->
+  	  <bean id="app" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+  	  		<property name="location" value="classpath:app.properties"></property>
+    	 	<property name="fileEncoding" value="UTF-8" /> 
+	  </bean> 
+	  <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        	<property name="ignoreUnresolvablePlaceholders" value="true"/>
+        	<property name="fileEncoding" value="UTF-8" />
+     	    <property name="locations">
+            	      <list>
+               	      <value>classpath:</value>
+           	          </list>          
+        	</property>   
+         	<property name="properties" ref="app"/>  
+      </bean> 
+   
+	  <bean id="wxPayConfig" class="com.spring.entity.WXPayConfig" >
+		    <property name="appId"  	value="${wxpay.appId}"    />
+	 	    <property name="mchId" 		value="${wxpay.mchId}"    />
+	 	    <property name="key" 		value="${wxpay.key}"      />
+	 	    <property name="secret" 	value="${wxpay.secret}"   /> 
+	 	    <property name="notifyUrl" 	value="${wxpay.notifyUrl}"/>
+	 	    <property name="returnUrl" 	value="${wxpay.returnUrl}"/> 
+	  </bean>  
+	  <bean id="payDao" class="com.spring.dao.impl.PayDaoImpl">
+	  	    <property name="wxPayConfig" ref="wxPayConfig"/> 
+	 	    <property name="alipayConfig" ref="alipayConfig"/> 
+	  </bean>
+	   
+</beans>
+
+
+
