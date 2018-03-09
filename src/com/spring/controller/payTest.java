@@ -33,7 +33,7 @@ public class payTest {
 	public String testPay(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		
 		//BeanFactory bf = new ClassPathXmlApplicationContext("spring.xml");						
-		//System.out.println(AlipayConfig.getInstance()+"\n -------------------------------");
+		System.out.println(AlipayConfig.getInstance()+"\n -------------------------------");
 		//System.out.println(WXPayConfig.getInstance()+"\n ---------------------------------");
 		//PayService ps =bf.getBean(PayService.class);
 		String pay = ps.pay();
